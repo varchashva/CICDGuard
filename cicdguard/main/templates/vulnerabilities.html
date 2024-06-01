@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/dash/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/dash/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/static/plugins/jQuery/datatables.min.css">
+    <link rel="stylesheet" href="/static/plugins/jQuery/datatables.select.min.css">
+    <link rel="stylesheet" href="/static/plugins/jQuery/jquery-ui.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/fontawesome.css">  -->
+    <link rel="stylesheet" type="text/css" href="/static/css/fontawesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/solid.min.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/all.css"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/all.min.css">  -->
+
+    <!-- <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+
+    <script src="/static/plugins/jQuery/jQuery-3.3.1.min.js"></script>
+    <script src="/static/plugins/jQuery/datatables.min.js"></script>
+    <script src="/static/plugins/jQuery/dataTables.select.min.js"></script>
+    <script src="/static/plugins/jQuery/dataTables.buttons.min.js"></script>
+    <script src="/static/plugins/jQuery/jquery-ui.js"></script>
+    <script src="/static/plugins/fastclick/fastclick.min.js"></script>
+    <script src="/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/plugins/jQuery/chart.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/dash/js/app.min.js"></script>
+    <script src="/static/js/docs.js"></script>
+    <script type="text/javascript" src="/staic/js/all.js"></script>
+    <script type="text/javascript" src="/staic/js/fontawesome.js"></script>
+</head>
+<body>
+<table id="listall" class="table table-striped table-bordered table-sm table-hover" cellspacing="0" width="90%">
+  <thead>
+    <tr>
+        {% for h in headers %}
+          <th class="th-sm">{{h}}</th>
+        {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+        {% for row in data %}
+            <tr>
+                {% for d in row %}
+                    <td>{{d | safe}}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+  </tbody>
+  <tbody>
+</body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#listall').DataTable();
+        $('.dataTables_length').addClass('bs-select');
+    });
+</script>

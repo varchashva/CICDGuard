@@ -1,0 +1,470 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <!-- <link href="/static/css/all.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="/static/css/ionicons.min.css">
+    <link rel="stylesheet" href="/static/dash/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="/static/dash/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/cicdguard/src/sigma.core.js"></script>
+    <script src="/static/cicdguard/src/conrad.js"></script>
+    <script src="/static/cicdguard/src/utils/sigma.utils.js"></script>
+    <script src="/static/cicdguard/src/utils/sigma.polyfills.js"></script>
+    <script src="/static/cicdguard/src/sigma.settings.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.dispatcher.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.configurable.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.graph.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.camera.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.quad.js"></script>
+    <script src="/static/cicdguard/src/classes/sigma.classes.edgequad.js"></script>
+    <script src="/static/cicdguard/src/captors/sigma.captors.mouse.js"></script>
+    <script src="/static/cicdguard/src/captors/sigma.captors.touch.js"></script>
+    <script src="/static/cicdguard/src/renderers/sigma.renderers.canvas.js"></script>
+    <script src="/static/cicdguard/src/renderers/sigma.renderers.webgl.js"></script>
+    <script src="/static/cicdguard/src/renderers/sigma.renderers.svg.js"></script>
+    <script src="/static/cicdguard/src/renderers/sigma.renderers.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/webgl/sigma.webgl.nodes.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/webgl/sigma.webgl.nodes.fast.js"></script>
+    <script src="/static/cicdguard/src/renderers/webgl/sigma.webgl.edges.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/webgl/sigma.webgl.edges.fast.js"></script>
+    <script src="/static/cicdguard/src/renderers/webgl/sigma.webgl.edges.arrow.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.labels.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.hovers.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.nodes.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edges.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edges.curve.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edges.arrow.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edges.curvedArrow.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edgehovers.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edgehovers.curve.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edgehovers.arrow.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.edgehovers.curvedArrow.js"></script>
+    <script src="/static/cicdguard/src/renderers/canvas/sigma.canvas.extremities.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.utils.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.nodes.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.edges.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.edges.curve.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.labels.def.js"></script>
+    <script src="/static/cicdguard/src/renderers/svg/sigma.svg.hovers.def.js"></script>
+    <script src="/static/cicdguard/src/middlewares/sigma.middlewares.rescale.js"></script>
+    <script src="/static/cicdguard/src/middlewares/sigma.middlewares.copy.js"></script>
+    <script src="/static/cicdguard/src/misc/sigma.misc.animation.js"></script>
+    <script src="/static/cicdguard/src/misc/sigma.misc.bindEvents.js"></script>
+    <script src="/static/cicdguard/src/misc/sigma.misc.bindDOMEvents.js"></script>
+    <script src="/static/cicdguard/src/misc/sigma.misc.drawHovers.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.parsers.json/sigma.parsers.json.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.neo4j.cypher/sigma.neo4j.cypher.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edgehovers.tapered.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.customEdgeShapes/sigma.canvas.edges.tapered.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.customNodes/sigma.canvas.nodes.def.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.edgeLabels/settings.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.def.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curve.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.renderers.edgeLabels/sigma.canvas.edges.labels.curvedArrow.js"></script>
+
+    <script src="/static/plugins/jQuery/jQuery-3.3.1.min.js"></script>
+    <script src="/static/plugins/jQuery/datatables.min.js"></script>
+    <script src="/static/plugins/jQuery/datatables.min.css"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap-select.min.js"></script>
+    <script src="/static/plugins/fastclick/fastclick.min.js"></script>
+    <script src="/static/dash/js/app.min.js"></script>
+    <script src="/static/plugins/jQuery/chart.js"></script>
+    <script src="/static/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="/static/js/docs.js"></script>
+    <!-- <script src="/static/js/all.js"></script> -->
+    <script src="/static/cicdguard/plugins/sigma.layout.forceAtlas2/worker.js"></script>
+    <script src="/static/cicdguard/plugins/sigma.layout.forceAtlas2/supervisor.js"></script>
+
+    <script src="/static/cicdguard/js/cicdguard.js"></script>
+
+
+    <style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  height: 100%;
+  width: 300;
+  position: fixed;
+  z-index: 1;
+  top: 60;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}
+</style>
+
+</head>
+
+<!--start of main design-->
+<body class="skin-blue fixed" data-spy="scroll" data-target="#scrollspy" onload="updateGraph('',1);">
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebar").style.width = "250px";
+  document.getElementById("main").style.marginRight = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebar").style.width = "0";
+  document.getElementById("main").style.marginLeft= "0";
+}
+</script>
+
+<div class="wrapper">
+
+    <header class="main-header">
+        <a href="" class="logo" style="height: 52px;">
+            <!-- <i class="fab fa-jenkins"></i> -->
+            <span class="logo-lg" style="font-weight: bold;">CICDGuard</span>
+            <!-- <span class="logo-mini">LM<b>Y</b>N</span> -->
+        </a>
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a> -->
+            <div class="navbar-custom-menu">
+               <!--  <span class="dropdown" style="float:left;padding:9px">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Apply Filter<span class="caret"></span></button>
+                    <span class="badge" style="background:#3971ac"><i class="glyphicon glyphicon-ok" style="padding-right:5px;color: rgb(184, 199, 206);"></i>{{project_id}}</span>
+                    <ul class="dropdown-menu">
+                        <input class="form-control" id="searchform" type="text" style="padding: 10px;margin-top: -6px;border: 0;border-radius: 0;background: #f1f1f1;" placeholder="Search...">
+                        {% for project in projectList %}
+                            <li><a href="/core/{{project}}/action">{{project}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </span> -->
+                <span class="dropdown" style="float: left; padding: 9px; border-right: medium inset white;">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Apply Filter<span class="caret" style="margin-left: 5px"></span></button>
+                    <span id="filterSpan"></span>
+                    <ul class="dropdown-menu" id="filterMenu">
+                        <input class="form-control" id="filterform" type="text" style="padding: 10px;margin-top: -6px;border: 0;border-radius: 0;background: #f1f1f1;" placeholder="Search...">
+
+                        
+                        <li class="dropdown-header"><b>Jenkins Properties</b></li>
+                        {% for jenkins in jenkins_filters %}
+                            <li><a href="#" onclick="return applyFilter(this,'jenkins');">{{jenkins}}</a></li>
+                        {% endfor %}
+                        <li role="presentation" class="divider"></li>
+                        <li class="dropdown-header"><b>GitHub Properties</b></li>
+                        {% for github in github_filters %}
+                            <li><a href="#" onclick="return applyFilter(this,'github');">{{github}}</a></li>
+                        {% endfor %}
+                        <li role="presentation" class="divider"></li>
+                        <li class="dropdown-header"><b>GitHub Action Properties</b></li>
+                        {% for action in action_filters %}
+                            <li><a href="#" onclick="return applyFilter(this,'action');">{{action}}</a></li>
+                        {% endfor %}
+                        <li role="presentation" class="divider"></li>
+                        <li class="dropdown-header"><b>JFrog Properties</b></li>
+                        {% for jfrog in jfrog_filters %}
+                            <li><a href="#" onclick="return applyFilter(this,'jfrog');">{{jfrog}}</a></li>
+                        {% endfor %}
+
+<!-- 
+                        <li role="presentation" class="divider"></li>
+                        <li class="dropdown-header"><b>Filter by Cloud Properties</b></li>
+                        {% for cloud in cloudList %}
+                            <li><a href="#" onclick="return applyFilter(this,'{{project_id}}');">{{cloud}}</a></li>
+                        {% endfor %} -->
+                    </ul>
+                </span>
+                <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/main/vulnerabilities"><i class="fa fa-pie-chart" title="Vulnerabilities" style="font-size:20px"></i></a></li></li>
+                        <li><a href="https://github.com/varchashva/CICDGuard/blob/master/README.md"><i class="fa fa-info-circle" style="font-size:20px"></i></a></li> 
+                    </ul>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div id="dashboard-container" style="padding-top:20px;position: fixed;top: 80px;width: 350px;right: 5px;">
+        <table class="table">
+              <thead class="thead-dark" style="color:white">
+                <tr>
+                    <th style="width: 60px;">
+                        <i class="fa fa-info-circle"style="padding-bottom: 8px;font-size: 30px;" ></i> 
+                    </th>
+                    <th>
+                        <h3>Node Details</h3></span>
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td colspan="2">
+                        <!-- <div class="info-box"> -->
+                            <!-- <div class="info-box-content"> -->
+                                <pre id="node_info" style="font-size:10px;margin-left:-5px;margin-right: -5px;">
+                                <!-- <span id="node_info" class="info-box-text" style="font-size:10px"></span> -->
+                            </pre>
+                            <!-- </div> -->
+                        <!-- </div> -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="table" style="width: 200px;bottom: 10px;position: fixed;">
+            <thead class="thead-dark" style="color:white">
+                <tr>
+                    <th colspan="2">
+                        <h4>Node Colors</h4>
+                    </th>
+                </tr>
+            </thead>
+            <tbody  style="font-size: 10px;">
+                <tr>
+                    <td style="color: white; background: black"> GitHub</td>
+                    <td style="color: white; background: #48728B;"> Jenkins</td>
+                </tr>
+                <tr>
+                    <td style="color: white; background: #4169E1"> Github Action</td>
+                    <td style="color: white; background: #18A558"> JFrog</td>
+                </tr>
+                <tr>
+                    <td style="color: white; background: red"> Vulnerable Node</td>
+                    <td style="color: white; background: grey;"> Disabled Node</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- <div id="mySidebar" class="sidebar">
+        <div>
+            <span>abcd</span>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+        </div>
+    </div> -->
+    <!-- <div id="main">
+        <button class="openbtn" onclick="openNav()">☰ Open Sidebar</button>  
+        <h2>Collapsed Sidebar</h2>
+        <p>Click on the hamburger menu/bar icon to open the sidebar, and push this content to the right.</p>
+    </div> -->
+</div>
+<!--start of side bar-->
+<!-- <aside class="main-sidebar">
+    <div class="sidebar" id="scrollspy">
+        <ul class="nav sidebar-menu">
+            <li class="treeview">
+                <a href="javascript::;">
+                    <i class="glyphicon glyphicon-folder-close" style="color: rgb(184, 199, 206);"></i>
+                    Project Management
+                </a>
+                <ul class="nav treeview-menu">
+                    <li class="treeview">
+                        <a href="javascript::;"><i class="glyphicon glyphicon-plus" style="color: rgb(184, 199, 206);"></i>Create Project</a>
+                        <ul class="nav treeview-menu">
+                            <div class="input-group">
+                                <form action="/core/create" method="POST">
+                                    <div class="input-group-prepend">
+                                       <span class="text" style="background:black"> {{newprojectform}}</span>
+                                        <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                            <i class="fa fa-plus" style="color: rgb(184, 199, 206);"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </ul>
+                    </li>
+                    <li><a href="/core/{{project_id}}/action?action=clear"><i class="glyphicon glyphicon-trash"></i>Delete Project</a></li>
+                </ul>
+
+            </li>
+            <li class="treeview">
+                <a href="javascript::;"><i class="glyphicon glyphicon-upload" style="color: rgb(184, 199, 206);"></i>Map CMDB</a>
+                <ul class="nav treeview-menu">
+                    <div class="input-group">
+                        <form id="cmdbform" class="md-form" enctype="multipart/form-data" action="/core/{{project_id}}/action" method="POST">
+                            <div class="input-group-prepend" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;">
+                                <input type="checkbox" name="beintrusive" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;"> Be INTRUSIVE
+                                <input type="file" class="btn btn-primary" name="cmdbfilepath" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;display:inline;width:95px;">
+                                <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                    <i class="fa fa-forward" style="color: rgb(184, 199, 206);"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </ul>
+            </li>
+            <li><a href="/core/{{project_id}}/action?action=findme"><i class="glyphicon glyphicon-search"></i> Find Me</a></li>
+            <li class="treeview">
+                <a href="javascript::;">
+                    <i class="glyphicon glyphicon-tasks" style="color: rgb(184, 199, 206);"></i>Network Activities
+                </a>
+                <ul class="nav treeview-menu">
+                    <li>
+                        <a href="/core/{{project_id}}/action?action=roam"><i class="glyphicon glyphicon-globe"></i> Roam Around</a>
+                    </li>
+                    <li class="treeview">
+                        <a href="javascript::;"><i class="fa fa-map-marker" style="color: rgb(184, 199, 206);"></i> Go To</a>
+                        <ul class="nav treeview-menu">
+                            <div class="input-group">
+                                <form id="gotoform" class="form-inline" action="/core/{{project_id}}/action" method="POST">
+                                    <div class="input-group-prepend">
+                                        {{gotoform.goto_target}}
+                                        <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                            <i class="fa fa-fighter-jet" style="color: rgb(184, 199, 206);"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="javascript::;"><i class="glyphicon glyphicon-zoom-in" style="color: rgb(184, 199, 206);"></i> Scan</a>
+                        <ul class="nav treeview-menu">
+                            <div class="input-group">
+                                <form action="/core/{{project_id}}/action" method="POST">
+                                    <div class="input-group-prepend">
+                                        {{scanform}}
+                                        <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                            <i class="fa fa-spinner" style="color: rgb(184, 199, 206);"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="javascript::;">
+                    <i class="glyphicon glyphicon-cloud" style="color: rgb(184, 199, 206);"></i>Cloud Activities
+                </a>
+                <ul class="nav treeview-menu">
+                    <li class="treeview">
+                        <a href="javascript::;"><i class="fa fa-amazon" style="color: rgb(184, 199, 206);"></i> AWS</a>
+                        <ul class="nav treeview-menu">
+                            <div class="input-group">
+                                <form id="awsform" class="form-inline" action="/core/{{project_id}}/action" method="POST">
+                                    <div class="input-group-prepend">
+                                        {{awsform.access_key}}<i class="fa fa-key" style="color: rgb(184, 199, 206);padding-left:6px;"></i><br>
+                                        {{awsform.access_id}}<i class="fa fa-user" style="color: rgb(184, 199, 206);padding-left:6px;"></i><br>
+                                        {{awsform.regions}}
+                                        <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                            <i class="fa fa-chevron-right" style="color: rgb(184, 199, 206);"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </ul>
+                    </li>
+
+                    <li class="treeview">
+                        <a href="javascript::;"><i class="fa fa-windows" style="color: rgb(184, 199, 206);"></i> Azure</a>
+                        <ul class="nav treeview-menu">
+                            <div class="input-group">
+                                <form action="/core/{{project_id}}/action" method="POST">
+                                    <div class="input-group-prepend">
+                                        {{azureform.azure_tenant_id}}<br>
+                                        {{azureform.azure_client_id}}<br>
+                                        {{azureform.azure_client_secret}}<br>
+                                        {{azureform.azure_subscription_id}}
+                                        <button type="submit" class="btn btn-primary" style="color: rgb(184, 199, 206);background-color: #2C3B41;border: none;" value="">
+                                            <i class="fa fa-chevron-right" style="color: rgb(184, 199, 206);"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+
+
+            <li class="treeview" id="historybar">
+                <a href="javascript::;" id="historylink"><i class="glyphicon glyphicon-hourglass" style="color: rgb(184, 199, 206);"></i>History</a>
+                <ul class="nav treeview-menu">
+                    
+                    {% for history in historyList %}
+                    <li><a href=""><i class="glyphicon glyphicon-minus" style="color: rgb(184, 199, 206);font-size:10px;width:8px;"></i> <span style="font-size:10px"> </span></a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+            <!--<div class="progress">-->
+                <!--<b>-->
+                    <!--<div class="progress-bar progress-bar-striped active" style="width:0%;" id= "historyprogressbar" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>-->
+                <!--</b>-->
+            <!--</div>-->
+        </ul>
+    </div>
+</aside> -->
+</div>
+
+<div id="container">
+    <style>
+        #graph-container {
+            top: 60;
+            bottom: 10;
+            left: 10;
+            right: 380;
+            position: absolute;
+        }
+    </style>
+    <div id="graph-container" style="background:white">
+  </div>
+</div>
+</body>
+</html>
