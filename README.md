@@ -18,9 +18,11 @@ CICDGuard is a graph based CICD ecosystem visualizer and security analyzer, whic
 ![CICDGuard_Architecture](https://github.com/varchashva/CICDGuard/assets/33921557/88109649-d636-4a80-9ca3-d086d15664d0)
 
 # Quickstart
-1. Install Neo4j database and run it with default settings
-2. Go to /scripts directory
+1. [Install Neo4j](https://neo4j.com/docs/operations-manual/current/installation/) database and run it with default settings 
+2. git clone https://github.com/varchashva/CICDGuard.git
+3. Go to /scripts directory
 3. Run the scanner as per your environment. Provide the environment variables, as applicable
+4. Visit http://localhost:8000/main/ (WebUI) to visualize the scanned information in graph form
 
 # Roadmap
 - Expansion of target technologies:
