@@ -339,8 +339,22 @@ if __name__ == "__main__":
 
 	repo_node = makeanode("repository",nodedata)
 	success_print("[+] Node " + str(repo_node) + " created successfully")
-
 	org_node.repository.connect(repo_node)
+
+	# GHA001
+	codeowners_file = repo.get_contents(urllib.parse.quote(".github/CODEOWNERS"))
+	if "404" in str(codeowners_file):
+		codeowners_file = repo.get_contents(urllib.parse.quote("/CODEOWNERS"))
+		if "404" in str(codeowners_file):
+			codeowners_file = repo.get_contents(urllib.parse.quote("docs/CODEOWNERS"))
+			if "404" in str(codeowners_file):
+				vuln_data = {}
+				vuln_data['repo'] = repo.name
+				vuln_data['organization'] = organization_name
+				vuln_data["vuln_id"] = "GHA001"	
+				vuln_data["impacted_area"] = str(repo.name) + " no CODEOWNERS file defined"		
+				OUTPUT.append(vuln_data)	
+				update_vulnerability(Github_Repository.nodes.get(name=repo.name),vuln_data["vuln_id"],vuln_data["impacted_area"])
 
 	workflows = repo.get_workflows()
 
