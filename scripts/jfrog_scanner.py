@@ -98,7 +98,13 @@ def error_print(message):
 def success_print(message):
 	print("\033[32m {}\033[00m" .format(message))	
 
-
+def update_vulnerability(node,vulnID,vuln_artifacts):
+	node.affected_vulns = str(node.affected_vulns) + "$" + str(vulnID)
+	node.vuln_artifacts = str(node.vuln_artifacts) + "$" + str(vuln_artifacts)
+	node.save()
+	success_print("[+] Node " + str(node) + " vulnerability details updated successfully: " + vulnID)
+	return
+	
 if __name__ == "__main__":
 	
 	print("[*] Processing JFrog Server: " + JFROG_URL)
@@ -114,6 +120,15 @@ if __name__ == "__main__":
 	nodedata["affected_vulns"] = ""
 	server_node = makeanode("jfrog",nodedata)
 	success_print("[+] Node " + str(server_node) + " created successfully")
+
+	vuln_data = {}
+	# JFA001
+	if not nodedata["https_enabled"]:
+		vuln_data["vuln_id"] = "JFA001"
+		vuln_data["jfrog_server"] = JFROG_URL
+		vuln_data["impacted_area"] = JFROG_URL
+		OUTPUT.append(vuln_data)
+		update_vulnerability(JFrog_Server.nodes.get(url=JFROG_URL),vuln_data["vuln_id"],vuln_data["impacted_area"])
 
 	groups = requests.get(str(JFROG_URL) + str(GROUP_QUERY),headers=headers).json()
 
