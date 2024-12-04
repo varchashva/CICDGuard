@@ -13,6 +13,7 @@ import time
 
 USER_QUERY = "/access/api/v2/users/$username"
 GROUP_QUERY = "/access/api/v2/groups"
+READINESS_QUERY = "/api/v1/system/readiness"
 
 JFROG_URL = os.getenv("JFROG_URL")
 JFROG_ACCESS_TOKEN = os.getenv("JFROG_ACCESS_TOKEN")
@@ -108,6 +109,7 @@ def update_vulnerability(node,vulnID,vuln_artifacts):
 if __name__ == "__main__":
 	
 	print("[*] Processing JFrog Server: " + JFROG_URL)
+	
 	headers = {
 		"Authorization": "Bearer " + str(JFROG_ACCESS_TOKEN),
 		"Accept": "application/json"
@@ -129,7 +131,16 @@ if __name__ == "__main__":
 		vuln_data["impacted_area"] = JFROG_URL
 		OUTPUT.append(vuln_data)
 		update_vulnerability(JFrog_Server.nodes.get(url=JFROG_URL),vuln_data["vuln_id"],vuln_data["impacted_area"])
-
+	
+	# JFA002
+	anonymous_check = requests.get(str(JFROG_URL) + str(READINESS_QUERY))
+	if "200" in str(anonymous_check.status_code):
+		vuln_data["vuln_id"] = "JFA002"
+		vuln_data["jfrog_server"] = JFROG_URL
+		vuln_data["impacted_area"] = str(JFROG_URL) + "anonymous user allowed"
+		OUTPUT.append(vuln_data)
+		update_vulnerability(JFrog_Server.nodes.get(url=JFROG_URL),vuln_data["vuln_id"],vuln_data["impacted_area"])
+	
 	groups = requests.get(str(JFROG_URL) + str(GROUP_QUERY),headers=headers).json()
 
 	for group in groups["groups"][0:5]:
