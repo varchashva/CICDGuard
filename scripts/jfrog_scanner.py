@@ -14,6 +14,7 @@ import time
 USER_QUERY = "/access/api/v2/users/$username"
 GROUP_QUERY = "/access/api/v2/groups"
 READINESS_QUERY = "/api/v1/system/readiness"
+PERMISSION_QUERY = "/access/api/v2/permissions"
 
 JFROG_URL = os.getenv("JFROG_URL")
 JFROG_ACCESS_TOKEN = os.getenv("JFROG_ACCESS_TOKEN")
@@ -65,6 +66,17 @@ class JFrog_User(StructuredNode):
 	def __str__(self):
 		return self.name
 
+class JFrog_Permission(StructuredNode):
+	uid = UniqueIdProperty()
+	name = StringProperty()
+	targets = StringProperty()
+	actions = StringProperty()
+	groups = StringProperty()
+	affected_vulns = StringProperty()
+	vuln_artifacts = StringProperty()
+	
+	def __str__(self):
+		return self.name
 
 def makeanode(nodetype,data):
 	if "user" in nodetype:
@@ -81,6 +93,13 @@ def makeanode(nodetype,data):
 			group_node = JFrog_Group(name=data["name"],affected_vulns=data["affected_vulns"],vuln_artifacts=data["vuln_artifacts"],description=data["description"],admin_privileges=data["admin_privileges"],realm=data["realm"])
 			group_node.save()
 		return group_node
+	elif "permission" in nodetype:
+		try:
+			permission_node = JFrog_Permission.nodes.get(name=data["name"])
+		except JFrog_Permission.DoesNotExist as ex:
+			permission_node = JFrog_Permission(name=data["name"],affected_vulns=data["affected_vulns"],vuln_artifacts=data["vuln_artifacts"],targets=data["targets"],actions=data["actions"],groups=data["groups"])
+			permission_node.save()
+		return permission_node
 	elif "jfrog" in nodetype:
 		try:
 			server_node = JFrog_Server.nodes.get(url=data["url"])
@@ -141,8 +160,30 @@ if __name__ == "__main__":
 		OUTPUT.append(vuln_data)
 		update_vulnerability(JFrog_Server.nodes.get(url=JFROG_URL),vuln_data["vuln_id"],vuln_data["impacted_area"])
 	
-	groups = requests.get(str(JFROG_URL) + str(GROUP_QUERY),headers=headers).json()
+	permissions = requets.get(str(JFROG_URL) + str(PERMISSION_QUERY),headers=headers).json()
 
+	for permission in permissions["permissions"][0:5]:
+		try:
+			time.sleep(5)
+			print("[*] Processing permission: " + str(permission["name"]))
+			permission_request = requests.get(str(JFROG_URL) + str(PERMISSION_QUERY) + "/" + str(permission["name"]),headers=headers).json()
+
+			nodedata = {}
+			nodedata["name"] = permission_request["name"]
+			nodedata["affected_vulns"] = ""
+			nodedata["vuln_artifacts"] = ""
+			nodedata["groups"] = permission_request["resources"]["artifact"]["actions"]["groups"]
+			nodedata["actions"] = permission_request["resources"]["artifact"]["actions"]
+			nodedata["targets"] = permission_request["resources"]["targets"]
+
+			permission_node = makeanode("permission",nodedata)
+			success_print("[+] Node " + str(permission_node) + " created successfully")
+			server_node.group.connect(permission_node)
+		except Exception as ex:
+			warning_print(str(ex))
+	
+	groups = requests.get(str(JFROG_URL) + str(GROUP_QUERY),headers=headers).json()
+		
 	for group in groups["groups"][0:5]:
 		try:
 			time.sleep(5)
