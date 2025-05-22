@@ -13,6 +13,8 @@ CICDGuard is a graph based CICD ecosystem visualizer and security analyzer, whic
 2) Identifies common security flaws across supported technologies and provides industry best practices and guidelines for identified flaws
 3) Technologies supported - GitHub, GitHub Action, Jenkins, JFrog, Spinnaker, Drone
 
+[More Details](https://medium.com/@rana.miet/how-to-have-visibility-and-security-of-cicd-ecosystem-d8d13734107b)
+
 
 # How it Works
 ![CICDGuard_Architecture](https://github.com/varchashva/CICDGuard/assets/33921557/88109649-d636-4a80-9ca3-d086d15664d0)
