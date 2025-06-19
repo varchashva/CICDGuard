@@ -15,6 +15,7 @@ ACTION_PERMISSIONS_QUERY = "/repos/$owner_name/$repo_name/actions/permissions"
 WORKFLOW_PERMISSIONS_QUERY = "/repos/$owner_name/$repo_name/actions/permissions/workflow"
 SECRET_SCANNING_ENABLED_QUERY = "/repos/$owner_name/$repo_name/secret-scanning/alerts" # 404 means disabled 
 CODE_SCANNING_ENABLED_QUERY "repos/$owner_name/$repo_name/code-scanning/alerts" # 404 means disabled
+CODE_SECURITY_CONFIGURATION = "code-security-configuration" 
 
 OUTPUT = []
 GIT = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
@@ -192,6 +193,13 @@ if __name__ == "__main__":
 	else:
 		nodedata["code_scanning_enabled"] = True
 
+	code_security_config = repo.get_security_config()
+	nodedata["code_scanning_default_setup"] = code_security_config.code_scanning_default_setup()
+	nodedata["dependabot_security_updates"] = code_security_config.dependabot_security_updates()
+	nodedata["secret_scanning_push_protection"] = code_security_config.secret_scanning_push_protection()
+	nodedata["enforcement"] = code_security_config.enforcement()
+	nodedata["secret_scanning_generic_secrets"] = code_security_config.secret_scanning_generic_secrets()
+	
 	repo_node = makeanode("repository",nodedata)
 	success_print("[+] Node " + str(repo_node) + " created successfully")
 
