@@ -15,7 +15,8 @@ ACTION_PERMISSIONS_QUERY = "/repos/$owner_name/$repo_name/actions/permissions"
 WORKFLOW_PERMISSIONS_QUERY = "/repos/$owner_name/$repo_name/actions/permissions/workflow"
 SECRET_SCANNING_ENABLED_QUERY = "/repos/$owner_name/$repo_name/secret-scanning/alerts" # 404 means disabled 
 CODE_SCANNING_ENABLED_QUERY "repos/$owner_name/$repo_name/code-scanning/alerts" # 404 means disabled
-CODE_SECURITY_CONFIGURATION = "code-security-configuration" 
+CODE_SECURITY_CONFIGURATION = "repos/$owner_name/$repo_name/code-security-configuration" 
+PRIVATE_REGISTRY_LIST = "orgs/$owner_name/private-registries"
 
 OUTPUT = []
 GIT = Github(os.getenv("GITHUB_ACCESS_TOKEN"))
@@ -73,6 +74,20 @@ class Github_User(StructuredNode):
 	is_site_admin = StringProperty()
 	permissions = StringProperty()
 	role = StringProperty()
+
+	affected_vulns = StringProperty()
+	vuln_artifacts = StringProperty()
+
+
+	def __str__(self):
+		return self.name
+
+class Github_Private_Registry(StructuredNode):
+	uid = UniqueIdProperty()
+	name = StringProperty()
+	registry_type = StringProperty()
+	username = StringProperty()
+	visibility = StringProperty()
 
 	affected_vulns = StringProperty()
 	vuln_artifacts = StringProperty()
@@ -140,6 +155,13 @@ def makeanode(nodetype, data):
 			user_node = Github_User(name=data["name"],email=data["email"],usertype=data["usertype"],is_site_admin=data["is_site_admin"],permissions=data["permissions"],role=data["role"],vuln_artifacts=data["vuln_artifacts"],affected_vulns=data["affected_vulns"])
 			user_node.save()
 		return user_node
+	elif "registry" in nodetype:
+		try:
+			registry_node = Github_Private_Registry.nodes.get(name=data["name"])
+		except Github_Private_Registry.DoesNotExist as ex:
+			registry_node = Github_Private_Registry(name=data["name"],affected_vulns=data["affected_vulns"],vuln_artifacts=data["vuln_artifacts"],registry_type=data["registry_type"],username=data["username"],visibility=data["visibility"])
+			registry_node.save()
+		return registry_node
 	return
 
 if __name__ == "__main__":
@@ -234,6 +256,15 @@ if __name__ == "__main__":
 			success_print("[+] Node " + str(repo_node) + " created successfully")
 			team_node.repository.connect(repo_node)
 
+			private_registry_request = requests.get('https://api.github.com' + PRIVATE_REGISTRY_LIST.replace("$owner_name",str(organization_name)), headers={'Authorization': 'bearer ' + str(os.getenv("GITHUB_ACCESS_TOKEN")) ,'Accept': 'application/vnd.github.vixen-preview+json'})
+			nodedata = {}
+			nodedata["visibility"] = private_registry_request["configuration"]["visibility"]
+			nodedata["name"] = private_registry_request["configuration"]["name"]
+			nodedata["registry_type"] = private_registry_request["configuration"]["registry_type"]
+			nodedata["username"] = private_registry_request["configuration"]["username"]
+			private_registry_node = makeanode("registry",nodedata)
+			success_print("[+] Node " + str(private_registry_node) + " created successfully")
+			org_node.repository.connect(private_registry_node)
 
 
 		team_members = team.get_members()
